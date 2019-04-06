@@ -1,4 +1,4 @@
-package recyclerviews
+package cossul.anderson.marvelcharacters.recyclerviews
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cossul.anderson.marvelcharacters.R
-import models.Character
+import cossul.anderson.marvelcharacters.models.Character
 import com.bumptech.glide.Glide
 
 class CharactersListAdapter(private val items: ArrayList<Character>) :

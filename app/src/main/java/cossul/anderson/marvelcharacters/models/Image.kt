@@ -1,4 +1,4 @@
-package models
+package cossul.anderson.marvelcharacters.models
 
 data class Image (
     val type: String,
