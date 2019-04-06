@@ -1,6 +1,6 @@
 package cossul.anderson.marvelcharacters.activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import cossul.anderson.marvelcharacters.R
 
