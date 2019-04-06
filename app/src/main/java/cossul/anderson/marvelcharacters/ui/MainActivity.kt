@@ -2,31 +2,36 @@ package cossul.anderson.marvelcharacters.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
-import cossul.anderson.marvelcharacters.models.Image
-import cossul.anderson.marvelcharacters.recyclerviews.CharactersListAdapter
+import cossul.anderson.marvelcharacters.recyclerviewsadapters.CharactersListAdapter
+import cossul.anderson.marvelcharacters.viewmodels.CharactersViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var charactersListRecyclerView: RecyclerView
-    private val characters: ArrayList<Character> = ArrayList()
+    private lateinit var charactersListAdapter: CharactersListAdapter
+    private lateinit var charactersViewModel: CharactersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        addCharacters()
-
+        charactersListAdapter = CharactersListAdapter()
         charactersListRecyclerView = findViewById(R.id.recycler_view)
         charactersListRecyclerView.layoutManager = LinearLayoutManager(this)
-        charactersListRecyclerView.adapter = CharactersListAdapter(characters)
-    }
+        charactersListRecyclerView.adapter = charactersListAdapter
 
-    private fun addCharacters() {
-        characters.add(Character(0, "Spider Man", "", Image("jpg", "https://images-na.ssl-images-amazon.com/images/I/61JqKytwchL._SX425_.jpg")))
-        characters.add(Character(1, "Thanos", "", Image("jpg", "https://www.sideshow.com/storage/product-images/903766/thanos_marvel_silo.png")))
-        characters.add(Character(2, "Iron Man", "", Image("jpg", "https://www.sideshow.com/storage/product-images/903341/iron-man-mark-iv_marvel_silo_sm.png")))
+        charactersViewModel = ViewModelProviders.of(this).get(CharactersViewModel::class.java)
+        charactersViewModel.getCharacters().observe(this, Observer<List<Character>>{ charactersList ->
+            charactersListAdapter.setItems(charactersList)
+            if (charactersList.isEmpty()) {
+                Toast.makeText(applicationContext, "No characters found", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

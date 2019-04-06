@@ -1,4 +1,4 @@
-package cossul.anderson.marvelcharacters.recyclerviews
+package cossul.anderson.marvelcharacters.recyclerviewsadapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +10,14 @@ import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
 import com.bumptech.glide.Glide
 
-class CharactersListAdapter(private val items: ArrayList<Character>) :
-    RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
+class CharactersListAdapter : RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
+
+    private var items: List<Character> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.characters_list_item, parent, false)
-        return ViewHolder(view, parent)
+        return ViewHolder(view, parent) // parent em função do Glide precisar do contexto
     }
 
     override fun getItemCount(): Int {
@@ -25,6 +26,12 @@ class CharactersListAdapter(private val items: ArrayList<Character>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+    }
+
+    fun setItems(items: List<Character>) {
+        this.items = items
+        notifyDataSetChanged()
+        // TODO: Pensar em um método melhor que notifyDataSetChanged
     }
 
     class ViewHolder(itemView: View, private val parent: ViewGroup) :
