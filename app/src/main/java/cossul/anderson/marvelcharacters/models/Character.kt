@@ -1,9 +1,9 @@
-package models
+package cossul.anderson.marvelcharacters.models
 
 data class Character (
     val id: Int,
     val name: String,
     val description: String,
     val thumbnail: Image
-    //val comicsList: ComicList
+    //val comicsList: ComicsList
 )
