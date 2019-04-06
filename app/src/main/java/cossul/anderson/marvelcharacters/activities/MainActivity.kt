@@ -30,5 +30,8 @@ class MainActivity : AppCompatActivity() {
         animals.add("Leopard")
         animals.add("Bird")
         animals.add("Snake")
+        animals.add("Bufallo")
+        animals.add("Shark")
+        animals.add("Fish")
     }
 }
