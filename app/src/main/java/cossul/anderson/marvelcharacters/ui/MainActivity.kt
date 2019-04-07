@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         charactersListRecyclerView.layoutManager = linearLayout
         charactersListRecyclerView.adapter = charactersListAdapter
         charactersListRecyclerView.addOnScrollListener(InfiniteScrollListener({
+            Toast.makeText(applicationContext, "Loading more characters", Toast.LENGTH_LONG).show()
             val currentIndex = charactersListAdapter.itemCount
             charactersViewModel.loadCharacters(currentIndex)
-            Toast.makeText(applicationContext, "Loading more characters", Toast.LENGTH_SHORT).show()
         }, linearLayout))
     }
 
@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
             charactersListAdapter.setItems(charactersList)
             if (charactersList.isEmpty()) {
                 Toast.makeText(applicationContext, "No characters found", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "New characters loaded", Toast.LENGTH_SHORT).show()
             }
         })
     }
