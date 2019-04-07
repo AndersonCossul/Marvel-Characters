@@ -20,8 +20,8 @@ class ComicsViewModel : ViewModel() {
     }
 
     // async coroutine in a different thread
-    fun loadComicsFor(characterId: Int) = GlobalScope.launch(Dispatchers.Main) {
-        val list = withContext(Dispatchers.Default) { MarvelAPI.getCharacterComics(characterId) }
+    fun loadComicsFor(characterId: Int, offset: Int = 0) = GlobalScope.launch(Dispatchers.Main) {
+        val list = withContext(Dispatchers.Default) { MarvelAPI.getCharacterComics(characterId, offset) }
         comicsList.value = list
     }
 }

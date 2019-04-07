@@ -9,7 +9,6 @@ import androidx.core.app.NotificationCompat.EXTRA_PEOPLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import cossul.anderson.marvelcharacters.R
@@ -17,7 +16,6 @@ import cossul.anderson.marvelcharacters.models.Character
 import cossul.anderson.marvelcharacters.models.ComicSummary
 import cossul.anderson.marvelcharacters.recyclerviewsadapters.ComicsListAdapter
 import cossul.anderson.marvelcharacters.viewmodels.ComicsViewModel
-import kotlinx.android.synthetic.main.activity_character_details.*
 
 class CharacterDetailsActivity : AppCompatActivity() {
     private lateinit var comicsListRecyclerView: RecyclerView
@@ -37,6 +35,10 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private fun mountInfo() {
         character = intent.extras.getSerializable(EXTRA_PEOPLE) as Character
 
+        val thumbnail = findViewById<ImageView>(R.id.thumbnail)
+        val name = findViewById<TextView>(R.id.name)
+        val description = findViewById<TextView>(R.id.description)
+
         Glide.with(this).load(character.landscapeImage.path).into(thumbnail)
         name.text = character.name
         description.text = if (character.description.isEmpty()) {
@@ -48,7 +50,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     private fun mountComicsList() {
         comicsListAdapter = ComicsListAdapter()
-        comicsListRecyclerView = recycler_view
+        comicsListRecyclerView = findViewById(R.id.recycler_view)
         comicsListRecyclerView.layoutManager = GridLayoutManager(this, 3)
         comicsListRecyclerView.adapter = comicsListAdapter
         comicsListRecyclerView.isNestedScrollingEnabled = false
@@ -61,8 +63,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
             comicsListAdapter.setItems(comicsList)
 
             if (!comicsList.isEmpty()) {
-                comics_title.visibility = View.VISIBLE
-                recycler_view.visibility = View.VISIBLE
+                val comicsTitle = findViewById<TextView>(R.id.comics_title)
+                comicsTitle.visibility = View.VISIBLE
+                comicsListRecyclerView.visibility = View.VISIBLE
             }
         })
     }
