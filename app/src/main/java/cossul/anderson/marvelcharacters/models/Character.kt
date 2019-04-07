@@ -8,5 +8,5 @@ data class Character (
     val description: String,
     val thumbnail: Image,
     val landscapeImage: Image,
-    val comicsList: ComicsList = ComicsList(ArrayList())
+    val comicsList: ArrayList<ComicSummary> = ArrayList()
 ): Serializable

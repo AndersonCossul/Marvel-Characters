@@ -3,7 +3,6 @@ package cossul.anderson.marvelcharacters.network
 import android.util.Log
 import cossul.anderson.marvelcharacters.models.Character
 import cossul.anderson.marvelcharacters.models.ComicSummary
-import cossul.anderson.marvelcharacters.models.ComicsList
 import cossul.anderson.marvelcharacters.models.Image
 import org.json.JSONException
 import org.json.JSONObject
@@ -54,7 +53,7 @@ object MarvelAPI {
         return charactersList
     }
 
-    suspend fun getCharacterComics(characterId: Int): ComicsList {
+    suspend fun getCharacterComics(characterId: Int): ArrayList<ComicSummary> {
         val comicsString = reachAPI("/characters/$characterId/comics")
         val comicsSummaryList = ArrayList<ComicSummary>()
         try {
@@ -67,7 +66,7 @@ object MarvelAPI {
 
                 var itemThumbnail = item.getJSONObject("thumbnail")
                 var itemThumbnailExtension = itemThumbnail.getString("extension")
-                var itemThumbnailPath = itemThumbnail.getString("path")
+                var itemThumbnailPath = itemThumbnail.getString("path") + "/standard_medium.$itemThumbnailExtension"
                 var thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
 
                 var comic = ComicSummary(itemTitle, thumbnail)
@@ -77,7 +76,7 @@ object MarvelAPI {
             Log.e(TAG, e.toString())
         }
 
-        return ComicsList(comicsSummaryList)
+        return comicsSummaryList
     }
 
     private fun reachAPI(url: String): String {

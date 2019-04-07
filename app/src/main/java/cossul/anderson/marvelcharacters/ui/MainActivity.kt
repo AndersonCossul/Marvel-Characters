@@ -23,11 +23,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mountList()
+        mountViewModel()
+    }
+
+    private fun mountList() {
         charactersListAdapter = CharactersListAdapter { character: Character -> characterItemClicked(character) }
         charactersListRecyclerView = findViewById(R.id.recycler_view)
         charactersListRecyclerView.layoutManager = LinearLayoutManager(this)
         charactersListRecyclerView.adapter = charactersListAdapter
+    }
 
+    private fun mountViewModel() {
         charactersViewModel = ViewModelProviders.of(this).get(CharactersViewModel::class.java)
         charactersViewModel.getCharacters().observe(this, Observer<List<Character>>{ charactersList ->
             charactersListAdapter.setItems(charactersList)

@@ -10,7 +10,9 @@ import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
 import com.bumptech.glide.Glide
 
-class CharactersListAdapter(val clickListener: (Character) -> Unit) : RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
+class CharactersListAdapter(private val clickListener: (Character) -> Unit) :
+    RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
+
     private var items: List<Character> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,7 +32,6 @@ class CharactersListAdapter(val clickListener: (Character) -> Unit) : RecyclerVi
     fun setItems(items: List<Character>) {
         this.items = items
         notifyDataSetChanged()
-        // TODO: Pensar em um método melhor que notifyDataSetChanged
     }
 
     class ViewHolder(itemView: View, private val parent: ViewGroup, val clickListener: (Character) -> Unit) :
