@@ -1,5 +1,5 @@
 package cossul.anderson.marvelcharacters.models
 
 data class ComicsList (
-    val items: MutableList<ComicSummary>
+    val items: ArrayList<ComicSummary>
 )

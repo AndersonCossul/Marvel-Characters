@@ -42,7 +42,7 @@ class CharactersListAdapter : RecyclerView.Adapter<CharactersListAdapter.ViewHol
             nameTextView.text = character.name
 
             val thumbnailImageView = itemView.findViewById(R.id.thumbnail) as ImageView
-            Glide.with(parent.context).load(character.thumbnail.url).into(thumbnailImageView)
+            Glide.with(parent.context).load(character.thumbnail.path).into(thumbnailImageView)
         }
     }
 }

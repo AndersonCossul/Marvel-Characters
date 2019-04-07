@@ -4,6 +4,6 @@ data class Character (
     val id: Int,
     val name: String,
     val description: String,
-    val thumbnail: Image
-    //val comicsList: ComicsList
+    val thumbnail: Image,
+    val comicsList: ComicsList = ComicsList(ArrayList())
 )
