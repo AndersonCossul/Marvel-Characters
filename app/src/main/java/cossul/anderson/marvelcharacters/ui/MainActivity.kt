@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
 import cossul.anderson.marvelcharacters.recyclerviewsadapters.CharactersListAdapter
+import cossul.anderson.marvelcharacters.utils.InfiniteScrollListener
 import cossul.anderson.marvelcharacters.viewmodels.CharactersViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -30,8 +31,14 @@ class MainActivity : AppCompatActivity() {
     private fun mountList() {
         charactersListAdapter = CharactersListAdapter { character: Character -> characterItemClicked(character) }
         charactersListRecyclerView = findViewById(R.id.recycler_view)
-        charactersListRecyclerView.layoutManager = LinearLayoutManager(this)
+        val linearLayout = LinearLayoutManager(this)
+        charactersListRecyclerView.layoutManager = linearLayout
         charactersListRecyclerView.adapter = charactersListAdapter
+        charactersListRecyclerView.addOnScrollListener(InfiniteScrollListener({
+            Toast.makeText(applicationContext, "Loading more characters", Toast.LENGTH_LONG).show()
+            val currentIndex = charactersListAdapter.itemCount
+            charactersViewModel.loadCharacters(currentIndex)
+        }, linearLayout))
     }
 
     private fun mountViewModel() {
@@ -40,6 +47,8 @@ class MainActivity : AppCompatActivity() {
             charactersListAdapter.setItems(charactersList)
             if (charactersList.isEmpty()) {
                 Toast.makeText(applicationContext, "No characters found", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Characters loaded", Toast.LENGTH_SHORT).show()
             }
         })
     }

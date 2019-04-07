@@ -19,8 +19,9 @@ object MarvelAPI {
     private const val PUBLIC_KEY = "563e89dd60d1975d1139130e7b486b2a"
     private const val PRIVATE_KEY = "fa193ef25b25f7a27131cd600ce45fd61f56fdea"
 
-    suspend fun getCharacters(): ArrayList<Character> {
-        val charactersString = reachAPI("/characters")
+    suspend fun getCharacters(offset: Int): ArrayList<Character> {
+        Log.d(TAG, offset.toString())
+        val charactersString = reachAPI("/characters", offset)
         val charactersList: ArrayList<Character> = ArrayList()
         try {
             val jsonObject = JSONObject(charactersString)
@@ -53,8 +54,8 @@ object MarvelAPI {
         return charactersList
     }
 
-    suspend fun getCharacterComics(characterId: Int): ArrayList<ComicSummary> {
-        val comicsString = reachAPI("/characters/$characterId/comics")
+    suspend fun getCharacterComics(characterId: Int, offset: Int): ArrayList<ComicSummary> {
+        val comicsString = reachAPI("/characters/$characterId/comics", offset)
         val comicsSummaryList = ArrayList<ComicSummary>()
         try {
             val jsonObject = JSONObject(comicsString)
@@ -79,10 +80,10 @@ object MarvelAPI {
         return comicsSummaryList
     }
 
-    private fun reachAPI(url: String): String {
+    private fun reachAPI(url: String, offset: Int): String {
         val timestamp = System.currentTimeMillis() / 1000
         val hash = md5("$timestamp$PRIVATE_KEY$PUBLIC_KEY")
-        val finalUrl = URL("$BASE_URL$url?ts=$timestamp&apikey=$PUBLIC_KEY&hash=$hash")
+        val finalUrl = URL("$BASE_URL$url?ts=$timestamp&apikey=$PUBLIC_KEY&hash=$hash&offset=$offset")
         var resultString = ""
 
         try {

@@ -1,5 +1,6 @@
 package cossul.anderson.marvelcharacters.recyclerviewsadapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ class CharactersListAdapter(private val clickListener: (Character) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.characters_list_item, parent, false)
-        return ViewHolder(view, parent, clickListener) // parent em função do Glide precisar do contexto
+        return ViewHolder(view, parent, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -26,6 +27,7 @@ class CharactersListAdapter(private val clickListener: (Character) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("CharatersListAdapter", "position: $position")
         holder.bind(items[position])
     }
 
