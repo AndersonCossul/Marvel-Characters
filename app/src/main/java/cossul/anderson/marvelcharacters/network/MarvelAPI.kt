@@ -19,8 +19,7 @@ object MarvelAPI {
     private const val PUBLIC_KEY = "563e89dd60d1975d1139130e7b486b2a"
     private const val PRIVATE_KEY = "fa193ef25b25f7a27131cd600ce45fd61f56fdea"
 
-    suspend fun getCharacters(offset: Int): ArrayList<Character> {
-        Log.d(TAG, offset.toString())
+    fun getCharacters(offset: Int): ArrayList<Character> {
         val charactersString = reachAPI("/characters", offset)
         val charactersList: ArrayList<Character> = ArrayList()
         try {
@@ -54,7 +53,7 @@ object MarvelAPI {
         return charactersList
     }
 
-    suspend fun getCharacterComics(characterId: Int, offset: Int): ArrayList<ComicSummary> {
+    fun getCharacterComics(characterId: Int, offset: Int): ArrayList<ComicSummary> {
         val comicsString = reachAPI("/characters/$characterId/comics", offset)
         val comicsSummaryList = ArrayList<ComicSummary>()
         try {
