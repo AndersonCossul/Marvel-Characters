@@ -1,8 +1,10 @@
 package cossul.anderson.marvelcharacters.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.app.NotificationCompat.EXTRA_PEOPLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,11 +23,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        charactersListAdapter = CharactersListAdapter()
+        mountList()
+        mountViewModel()
+    }
+
+    private fun mountList() {
+        charactersListAdapter = CharactersListAdapter { character: Character -> characterItemClicked(character) }
         charactersListRecyclerView = findViewById(R.id.recycler_view)
         charactersListRecyclerView.layoutManager = LinearLayoutManager(this)
         charactersListRecyclerView.adapter = charactersListAdapter
+    }
 
+    private fun mountViewModel() {
         charactersViewModel = ViewModelProviders.of(this).get(CharactersViewModel::class.java)
         charactersViewModel.getCharacters().observe(this, Observer<List<Character>>{ charactersList ->
             charactersListAdapter.setItems(charactersList)
@@ -33,5 +42,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "No characters found", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun characterItemClicked(character: Character) {
+        val intent = Intent(this, CharacterDetailsActivity::class.java)
+        intent.putExtra(EXTRA_PEOPLE, character)
+        startActivity(intent)
     }
 }

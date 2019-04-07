@@ -1,9 +1,12 @@
 package cossul.anderson.marvelcharacters.models
 
+import java.io.Serializable
+
 data class Character (
     val id: Int,
     val name: String,
     val description: String,
     val thumbnail: Image,
-    val comicsList: ComicsList = ComicsList(ArrayList())
-)
+    val landscapeImage: Image,
+    val comicsList: ArrayList<ComicSummary> = ArrayList()
+): Serializable

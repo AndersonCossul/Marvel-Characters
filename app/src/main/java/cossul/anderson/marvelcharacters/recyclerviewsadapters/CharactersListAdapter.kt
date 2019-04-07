@@ -10,14 +10,15 @@ import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
 import com.bumptech.glide.Glide
 
-class CharactersListAdapter : RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
+class CharactersListAdapter(private val clickListener: (Character) -> Unit) :
+    RecyclerView.Adapter<CharactersListAdapter.ViewHolder>() {
 
     private var items: List<Character> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.characters_list_item, parent, false)
-        return ViewHolder(view, parent) // parent em função do Glide precisar do contexto
+        return ViewHolder(view, parent, clickListener) // parent em função do Glide precisar do contexto
     }
 
     override fun getItemCount(): Int {
@@ -31,10 +32,9 @@ class CharactersListAdapter : RecyclerView.Adapter<CharactersListAdapter.ViewHol
     fun setItems(items: List<Character>) {
         this.items = items
         notifyDataSetChanged()
-        // TODO: Pensar em um método melhor que notifyDataSetChanged
     }
 
-    class ViewHolder(itemView: View, private val parent: ViewGroup) :
+    class ViewHolder(itemView: View, private val parent: ViewGroup, val clickListener: (Character) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
         fun bind(character: Character) {
@@ -43,6 +43,8 @@ class CharactersListAdapter : RecyclerView.Adapter<CharactersListAdapter.ViewHol
 
             val thumbnailImageView = itemView.findViewById(R.id.thumbnail) as ImageView
             Glide.with(parent.context).load(character.thumbnail.path).into(thumbnailImageView)
+
+            itemView.setOnClickListener { clickListener(character) }
         }
     }
 }
