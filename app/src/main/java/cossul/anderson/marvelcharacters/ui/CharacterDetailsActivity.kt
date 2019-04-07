@@ -2,11 +2,13 @@ package cossul.anderson.marvelcharacters.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat.EXTRA_PEOPLE
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,8 +18,8 @@ import cossul.anderson.marvelcharacters.R
 import cossul.anderson.marvelcharacters.models.Character
 import cossul.anderson.marvelcharacters.models.ComicSummary
 import cossul.anderson.marvelcharacters.recyclerviewsadapters.ComicsListAdapter
-import cossul.anderson.marvelcharacters.utils.InfiniteScrollListener
 import cossul.anderson.marvelcharacters.viewmodels.ComicsViewModel
+
 
 class CharacterDetailsActivity : AppCompatActivity() {
     private lateinit var comicsListRecyclerView: RecyclerView
@@ -53,15 +55,22 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private fun mountComicsList() {
         comicsListAdapter = ComicsListAdapter()
         comicsListRecyclerView = findViewById(R.id.recycler_view)
-        val layoutManager = GridLayoutManager(this, 3)
-        comicsListRecyclerView.layoutManager = layoutManager
+        comicsListRecyclerView.layoutManager = GridLayoutManager(this, 3)
         comicsListRecyclerView.adapter = comicsListAdapter
         comicsListRecyclerView.isNestedScrollingEnabled = false
-        comicsListRecyclerView.addOnScrollListener(InfiniteScrollListener({
-            Toast.makeText(applicationContext, "Loading more comics", Toast.LENGTH_SHORT).show()
-            val currentIndex = comicsListAdapter.itemCount
-            comicsViewModel.loadComicsFor(character.id, currentIndex)
-        }, layoutManager))
+        val nestedScrollView = findViewById<NestedScrollView>(R.id.nested_scroll_view)
+
+        nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+            val view = v.getChildAt(v.childCount - 1) as View
+            val diff = view.bottom - (v.height + v.scrollY)
+
+            if (diff == 0) {
+                Toast.makeText(applicationContext, "Loading more comics", Toast.LENGTH_LONG).show()
+                var currentIndex = comicsListAdapter.itemCount
+                comicsViewModel.loadComicsFor(character.id, currentIndex)
+            }
+        })
     }
 
     private fun mountComicsViewModel() {
@@ -75,7 +84,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
                 val comicsTitle = findViewById<TextView>(R.id.comics_title)
                 comicsTitle.visibility = View.VISIBLE
                 comicsListRecyclerView.visibility = View.VISIBLE
-                Toast.makeText(this, comicsList.size.toString() + " comics loaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Comics loaded", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "No comics found", Toast.LENGTH_SHORT).show()
             }

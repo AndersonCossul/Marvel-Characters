@@ -23,16 +23,16 @@ class CharactersViewModel : ViewModel() {
 
     // async coroutine in a different thread
     fun loadCharacters(offset: Int = 0) = GlobalScope.launch(Dispatchers.Main) {
+        val actualList = characters.value
+
         val charactersList = withContext(Dispatchers.Default) { MarvelAPI.getCharacters(offset) }
         val merge = ArrayList<Character>()
-        val actualList = characters.value
 
         if (actualList != null) {
             for (i in 0 until actualList.size) {
                 merge.add(actualList[i])
             }
         }
-
         merge.addAll(charactersList)
         characters.value = merge
     }

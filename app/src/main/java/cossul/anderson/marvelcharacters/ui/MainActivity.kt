@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             if (charactersList.isEmpty()) {
                 Toast.makeText(applicationContext, "No characters found", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "New characters loaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Characters loaded", Toast.LENGTH_SHORT).show()
             }
         })
     }
