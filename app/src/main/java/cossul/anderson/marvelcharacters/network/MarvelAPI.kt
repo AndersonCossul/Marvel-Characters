@@ -34,11 +34,16 @@ object MarvelAPI {
                 var itemDescription = item.getString("description")
 
                 var itemThumbnail = item.getJSONObject("thumbnail")
+
                 var itemThumbnailExtension = itemThumbnail.getString("extension")
                 var itemThumbnailPath = itemThumbnail.getString("path") + "/portrait_small.$itemThumbnailExtension"
                 var thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
 
-                var character = Character(itemId, itemName, itemDescription, thumbnail)
+                var itemLandscapeImageExtension = itemThumbnail.getString("extension")
+                var itemLandscapeImagePath = itemThumbnail.getString("path") + "/landscape_xlarge.$itemThumbnailExtension"
+                var landscapeImage = Image(itemLandscapeImageExtension, itemLandscapeImagePath)
+
+                var character = Character(itemId, itemName, itemDescription, thumbnail, landscapeImage)
 
                 charactersList.add(character)
             }
