@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mountViewModel() {
+        Toast.makeText(this, "Loading characters", Toast.LENGTH_LONG).show()
         charactersViewModel = ViewModelProviders.of(this).get(CharactersViewModel::class.java)
         charactersViewModel.getCharacters().observe(this, Observer<List<Character>>{ charactersList ->
             charactersListAdapter.setItems(charactersList)
