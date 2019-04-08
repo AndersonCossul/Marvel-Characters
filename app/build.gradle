@@ -23,6 +23,11 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module' // to fix coroutines
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -32,6 +37,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0-alpha-2"
 
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:4.2"
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
