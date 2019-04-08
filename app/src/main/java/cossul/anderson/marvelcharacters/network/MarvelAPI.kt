@@ -29,20 +29,20 @@ object MarvelAPI {
             for (i in 0 until results.length()) {
                 val item = results.getJSONObject(i)
                 val itemId = item.getInt("id")
-                var itemName = item.getString("name")
-                var itemDescription = item.getString("description")
+                val itemName = item.getString("name")
+                val itemDescription = item.getString("description")
 
-                var itemThumbnail = item.getJSONObject("thumbnail")
+                val itemThumbnail = item.getJSONObject("thumbnail")
 
-                var itemThumbnailExtension = itemThumbnail.getString("extension")
-                var itemThumbnailPath = itemThumbnail.getString("path") + "/portrait_small.$itemThumbnailExtension"
-                var thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
+                val itemThumbnailExtension = itemThumbnail.getString("extension")
+                val itemThumbnailPath = itemThumbnail.getString("path") + "/portrait_small.$itemThumbnailExtension"
+                val thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
 
-                var itemLandscapeImageExtension = itemThumbnail.getString("extension")
-                var itemLandscapeImagePath = itemThumbnail.getString("path") + "/landscape_xlarge.$itemThumbnailExtension"
-                var landscapeImage = Image(itemLandscapeImageExtension, itemLandscapeImagePath)
+                val itemLandscapeImageExtension = itemThumbnail.getString("extension")
+                val itemLandscapeImagePath = itemThumbnail.getString("path") + "/landscape_xlarge.$itemThumbnailExtension"
+                val landscapeImage = Image(itemLandscapeImageExtension, itemLandscapeImagePath)
 
-                var character = Character(itemId, itemName, itemDescription, thumbnail, landscapeImage)
+                val character = Character(itemId, itemName, itemDescription, thumbnail, landscapeImage)
 
                 charactersList.add(character)
             }
@@ -61,15 +61,15 @@ object MarvelAPI {
             val data = jsonObject.getJSONObject("data")
             val results = data.getJSONArray("results")
             for (i in 0 until results.length()) {
-                var item = results.getJSONObject(i)
-                var itemTitle = item.getString("title")
+                val item = results.getJSONObject(i)
+                val itemTitle = item.getString("title")
 
-                var itemThumbnail = item.getJSONObject("thumbnail")
-                var itemThumbnailExtension = itemThumbnail.getString("extension")
-                var itemThumbnailPath = itemThumbnail.getString("path") + "/standard_medium.$itemThumbnailExtension"
-                var thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
+                val itemThumbnail = item.getJSONObject("thumbnail")
+                val itemThumbnailExtension = itemThumbnail.getString("extension")
+                val itemThumbnailPath = itemThumbnail.getString("path") + "/standard_medium.$itemThumbnailExtension"
+                val thumbnail = Image(itemThumbnailExtension, itemThumbnailPath)
 
-                var comic = ComicSummary(itemTitle, thumbnail)
+                val comic = ComicSummary(itemTitle, thumbnail)
                 comicsSummaryList.add(comic)
             }
         } catch (e: JSONException) {
