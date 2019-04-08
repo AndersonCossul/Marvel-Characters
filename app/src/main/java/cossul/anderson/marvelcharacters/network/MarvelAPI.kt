@@ -4,12 +4,12 @@ import android.util.Log
 import cossul.anderson.marvelcharacters.models.Character
 import cossul.anderson.marvelcharacters.models.ComicSummary
 import cossul.anderson.marvelcharacters.models.Image
+import cossul.anderson.marvelcharacters.utils.Encryption
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
 import java.io.BufferedReader
 import java.net.HttpURLConnection
-import java.security.NoSuchAlgorithmException
 import javax.net.ssl.HttpsURLConnection
 
 // object to be a singleton
@@ -81,7 +81,7 @@ object MarvelAPI {
 
     private fun reachAPI(url: String, offset: Int): String {
         val timestamp = System.currentTimeMillis() / 1000
-        val hash = md5("$timestamp$PRIVATE_KEY$PUBLIC_KEY")
+        val hash = Encryption.md5("$timestamp$PRIVATE_KEY$PUBLIC_KEY")
         val finalUrl = URL("$BASE_URL$url?ts=$timestamp&apikey=$PUBLIC_KEY&hash=$hash&offset=$offset")
         var resultString = ""
 
@@ -101,31 +101,5 @@ object MarvelAPI {
             Log.e(TAG, e.toString())
         }
         return resultString
-    }
-
-    private fun md5(s: String): String {
-        val md5 = "MD5"
-        try {
-            // Create MD5 Hash
-            val digest = java.security.MessageDigest
-                .getInstance(md5)
-            digest.update(s.toByteArray())
-            val messageDigest = digest.digest()
-
-            // Create Hex String
-            val hexString = StringBuilder()
-            for (aMessageDigest in messageDigest) {
-                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
-                while (h.length < 2)
-                    h = "0$h"
-                hexString.append(h)
-            }
-            return hexString.toString()
-
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-
-        return ""
     }
 }
