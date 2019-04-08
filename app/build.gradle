@@ -23,6 +23,11 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module' // to fix coroutines
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
