@@ -66,7 +66,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             val diff = view.bottom - (v.height + v.scrollY)
 
             if (diff == 0) {
-                Toast.makeText(applicationContext, "Loading more comics", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Loading more comics", Toast.LENGTH_SHORT).show()
                 var currentIndex = comicsListAdapter.itemCount
                 comicsViewModel.loadComicsFor(character.id, currentIndex)
             }
@@ -76,7 +76,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private fun mountComicsViewModel() {
         comicsViewModel = ViewModelProviders.of(this).get(ComicsViewModel::class.java)
         comicsViewModel.loadComicsFor(character.id)
-        Toast.makeText(this, "Loading comics", Toast.LENGTH_LONG).show() // long because it's overridden on response
+        Toast.makeText(this, "Loading comics", Toast.LENGTH_SHORT).show() // long because it's overridden on response
         comicsViewModel.getComics().observe(this, Observer<List<ComicSummary>>{ comicsList ->
             comicsListAdapter.setItems(comicsList)
 
