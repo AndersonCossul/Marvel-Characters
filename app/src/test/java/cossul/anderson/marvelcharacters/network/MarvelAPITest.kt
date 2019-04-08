@@ -1,6 +1,6 @@
 package cossul.anderson.marvelcharacters.network
 
-import cossul.anderson.marvelcharacters.BuildConfig
+import cossul.anderson.marvelcharacters.network.MarvelAPI
 import org.junit.Test
 
 import org.junit.runner.RunWith
